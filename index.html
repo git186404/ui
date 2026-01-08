@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI UX Pro Max - 专业UI/UX设计智能助手</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #27272a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景动画粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 主要内容 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        /* 功能特性 */
+        .features {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--text-primary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .feature-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* 安装说明 */
+        .installation {
+            padding: 4rem 0;
+            background: var(--glass-bg);
+            margin: 2rem 0;
+            border-radius: 20px;
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'bash';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .code-line {
+            color: var(--text-secondary);
+            margin: 0.25rem 0;
+        }
+
+        .code-command {
+            color: var(--accent-primary);
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        /* 使用示例 */
+        .usage-examples {
+            padding: 4rem 0;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .example-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            border-color: var(--accent-tertiary);
+            transform: translateY(-3px);
+        }
+
+        .example-title {
+            color: var(--accent-tertiary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* 页脚 */
+        .footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 0 3rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* 加载动画 */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-primary);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景粒子效果 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">UI UX Pro Max</div>
+            <ul class="nav-links">
+                <li><a href="#features">功能特性</a></li>
+                <li><a href="#installation">安装</a></li>
+                <li><a href="#usage">使用示例</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="container">
+        <!-- 英雄区域 -->
+        <section class="hero">
+            <h1 class="hero-title fade-in-up">专业UI/UX设计智能助手</h1>
+            <p class="hero-subtitle fade-in-up">
+                为多平台和框架构建专业UI/UX提供设计智能的AI技能。包含57种UI样式、95种配色方案、56种字体配对等专业设计资源。
+            </p>
+            <a href="#installation" class="cta-button fade-in-up">开始使用</a>
+        </section>
+
+        <!-- 功能特性 -->
+        <section class="features" id="features">
+            <h2 class="section-title">强大功能</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">57+</span>
+                    <span class="feature-icon">🎨</span>
+                    <h3 class="feature-title">UI样式库</h3>
+                    <p class="feature-description">
+                        玻璃态、粘土态、极简主义、野兽派、新拟物化、便当网格、深色模式等多种现代设计风格
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">95+</span>
+                    <span class="feature-icon">🎨</span>
+                    <h3 class="feature-title">专业配色</h3>
+                    <p class="feature-description">
+                        针对不同行业的专业配色方案：SaaS、电商、医疗保健、金融科技、美容等领域的精心设计
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">56+</span>
+                    <span class="feature-icon">📝</span>
+                    <h3 class="feature-title">字体配对</h3>
+                    <p class="feature-description">
+                        精心策划的字体组合搭配，包含Google Fonts导入，让您的设计更具专业性和美感
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">24+</span>
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">图表类型</h3>
+                    <p class="feature-description">
+                        为仪表板和数据分析推荐的最佳图表类型，让数据可视化更加直观和美观
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">10+</span>
+                    <span class="feature-icon">⚛️</span>
+                    <h3 class="feature-title">技术栈支持</h3>
+                    <p class="feature-description">
+                        React、Next.js、Vue、Nuxt.js、Nuxt UI、Svelte、SwiftUI、React Native、Flutter、HTML+Tailwind
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <span class="feature-number">98+</span>
+                    <span class="feature-icon">✨</span>
+                    <h3 class="feature-title">UX指南</h3>
+                    <p class="feature-description">
+                        最佳实践、反模式设计和无障碍规则，帮助您创建优秀的用户体验
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 安装说明 -->
+        <section class="installation" id="installation">
+            <h2 class="section-title">快速安装</h2>
+            <div style="max-width: 800px; margin: 0 auto; padding: 0 2rem;">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">使用CLI（推荐）</h3>
+                <div class="code-block">
+                    <div class="code-line"><span class="code-comment"># 全局安装CLI</span></div>
+                    <div class="code-line"><span class="code-command">npm install -g uipro-cli</span></div>
+                    <div class="code-line"></div>
+                    <div class="code-line"><span class="code-comment"># 进入您的项目</span></div>
+                    <div class="code-line"><span class="code-command">cd /path/to/your/project</span></div>
+                    <div class="code-line"></div>
+                    <div class="code-line"><span class="code-comment"># 为您的AI助手安装</span></div>
+                    <div class="code-line"><span class="code-command">uipro init --ai claude</span>      <span class="code-comment"># Claude Code</span></div>
+                    <div class="code-line"><span class="code-command">uipro init --ai cursor</span>      <span class="code-comment"># Cursor</span></div>
+                    <div class="code-line"><span class="code-command">uipro init --ai windsurf</span>    <span class="code-comment"># Windsurf</span></div>
+                    <div class="code-line"><span class="code-command">uipro init --ai all</span>         <span class="code-comment"># 所有助手</span></div>
+                </div>
+
+                <h3 style="color: var(--accent-secondary); margin: 2rem 0 1rem;">其他CLI命令</h3>
+                <div class="code-block">
+                    <div class="code-line"><span class="code-command">uipro versions</span>              <span class="code-comment"># 列出可用版本</span></div>
+                    <div class="code-line"><span class="code-command">uipro update</span>                 <span class="code-comment"># 更新到最新版本</span></div>
+                    <div class="code-line"><span class="code-command">uipro init --version v1.0.0</span> <span class="code-comment"># 安装特定版本</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用示例 -->
+        <section class="usage-examples" id="usage">
+            <h2 class="section-title">使用示例</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">Claude Code</div>
+                    <div class="example-description">
+                        技能会自动激活，只需自然对话：
+                        <br><em>"为我的SaaS产品构建着陆页"</em>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">Cursor / Windsurf</div>
+                    <div class="example-description">
+                        使用斜杠命令调用技能：
+                        <br><em>/ui-ux-pro-max 构建医疗分析仪表板</em>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">GitHub Copilot</div>
+                    <div class="example-description">
+                        在VS Code中与Copilot对话：
+                        <br><em>/ui-ux-pro-max 设计深色模式作品集网站</em>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">Codex CLI</div>
+                    <div class="example-description">
+                        技能会自动激活，也可显式调用：
+                        <br><em>$ui-ux-pro-max 创建电商移动应用UI</em>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer" id="contact">
+        <div class="footer-links">
+            <a href="#features">功能特性</a>
+            <a href="#installation">安装指南</a>
+            <a href="#usage">使用示例</a>
+            <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">GitHub</a>
+            <a href="LICENSE">许可证</a>
+        </div>
+        <div class="footer-text">
+            <p>&copy; 2024 UI UX Pro Max. 保留所有权利. | MIT许可证</p>
+        </div>
+    </footer>
+
+    <script>
+        // 创建背景粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            const windowHeight = window.innerHeight;
+
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            handleScrollAnimations();
+            
+            // 为fade-in-up元素设置初始状态
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease-out';
+            });
+        });
+
+        // 滚动事件监听
+        window.addEventListener('scroll', handleScrollAnimations);
+
+        // 导航栏背景透明度
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            const scrolled = window.scrollY > 50;
+            
+            if (scrolled) {
+                navbar.style.background = 'rgba(10, 10, 15, 0.9)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
